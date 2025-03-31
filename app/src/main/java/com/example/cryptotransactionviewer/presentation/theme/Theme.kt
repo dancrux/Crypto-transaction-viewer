@@ -1,4 +1,4 @@
-package com.example.cryptotransactionviewer.ui.theme
+package com.example.cryptotransactionviewer.presentation.theme
 
 
 import android.os.Build
