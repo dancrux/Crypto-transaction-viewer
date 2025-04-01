@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Crypto Transaction Viewer</string>
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="sign_in_to_continue">Sign in to continue</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="transactions">Transactions</string>
+    <string name="block_info">Block Information</string>
+    <string name="height">Height</string>
+    <string name="hash">Hash</string>
+    <string name="time">Time</string>
+    <string name="transaction_count">Transactions</string>
+    <string name="refresh">Refresh</string>
+    <string name="logout">Logout</string>
+    <string name="error_occurred">An error occurred</string>
+    <string name="retry">Retry</string>
+    <string name="no_transactions">No transactions found</string>
 </resources>
