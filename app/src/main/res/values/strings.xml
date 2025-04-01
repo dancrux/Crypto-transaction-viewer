@@ -17,4 +17,7 @@
     <string name="error_occurred">An error occurred</string>
     <string name="retry">Retry</string>
     <string name="no_transactions">No transactions found</string>
+    <string name="incoming">No transactions found</string>
+    <string name="outgoing">No transactions found</string>
+    <string name="back">Back</string>
 </resources>
