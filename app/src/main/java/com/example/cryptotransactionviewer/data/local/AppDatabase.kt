@@ -22,8 +22,8 @@ import com.example.cryptotransactionviewer.data.local.util.Converters
         TransactionOutputEntity::class,
         UserEntity::class
                ],
-
     version = 1,
+    exportSchema = false
 
 )
 @TypeConverters(Converters::class)
