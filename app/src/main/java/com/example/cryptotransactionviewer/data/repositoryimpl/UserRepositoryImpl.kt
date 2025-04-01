@@ -2,7 +2,7 @@ package com.example.cryptotransactionviewer.data.repositoryimpl
 
 import com.example.cryptotransactionviewer.data.local.entity.toUser
 import com.example.cryptotransactionviewer.data.local.entity.toUserEntity
-import com.example.cryptotransactionviewer.data.local.source.UsersLocalDataSource
+import com.example.cryptotransactionviewer.data.local.source.UserLocalDataSource
 import com.example.cryptotransactionviewer.data.remote.dto.toUser
 import com.example.cryptotransactionviewer.data.remote.source.UserRemoteDataSource
 import com.example.cryptotransactionviewer.domain.model.Resource
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
     private val remoteDataSource: UserRemoteDataSource,
-    private val localDataSource: UsersLocalDataSource
+    private val localDataSource: UserLocalDataSource
 )  : UserRepository{
     override suspend fun login(username: String, password: String): Flow<Resource<User>> = flow {
        emit(Resource.Loading())

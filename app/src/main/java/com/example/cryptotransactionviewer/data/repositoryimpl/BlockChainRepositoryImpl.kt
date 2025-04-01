@@ -109,7 +109,7 @@ class BlockChainRepositoryImpl @Inject constructor(
             val blockOperations = remoteDataSource.getTezosBlockOperations(newestBlock.level)
 
             // Convert to domain model
-            val transactions = blockOperations.filter { it.type == "transaction" }.mapIndexed { index, tezosOperationDto ->
+            val transactions = blockOperations.filter { it.type == "transaction" }.mapIndexed { _, tezosOperationDto ->
                 Transaction(
                     hash = tezosOperationDto.hash, time = Date().time, blockHeight = newestBlock.level, inputs = listOf(
                     TransactionInput(

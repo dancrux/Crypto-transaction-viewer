@@ -5,7 +5,7 @@ import com.example.cryptotransactionviewer.data.local.entity.UserEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class UsersLocalDataSource @Inject constructor(
+class UserLocalDataSource @Inject constructor(
     private  val userDao: UserDao
 ) {
     fun getUser(): Flow<UserEntity?> {
