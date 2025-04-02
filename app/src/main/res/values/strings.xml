@@ -20,4 +20,8 @@
     <string name="incoming">No transactions found</string>
     <string name="outgoing">No transactions found</string>
     <string name="back">Back</string>
+    <string name="bitcoin_transactions">Bitcoin Transactions</string>
+    <string name="app_logo">App Logo</string>
+    <string name="hide_password">Hide password</string>
+    <string name="show_password">Show password</string>
 </resources>
