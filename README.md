@@ -52,7 +52,7 @@ The app connects to:
 ### Installation
 1. Clone the repository:
 ```
-git clone https://github.com/yourusername/crypto-transaction-viewer.git
+git clone https://github.com/dancrux/Crypto-transaction-viewer.git
 ```
 
 2. Open the project in Android Studio
@@ -61,7 +61,6 @@ git clone https://github.com/yourusername/crypto-transaction-viewer.git
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
 
