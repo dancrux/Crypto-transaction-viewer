@@ -2,6 +2,7 @@ package com.example.cryptotransactionviewer.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.cryptotransactionviewer.R
 import com.example.cryptotransactionviewer.domain.model.Resource
 import com.example.cryptotransactionviewer.domain.model.User
 import com.example.cryptotransactionviewer.domain.usecase.LoginUseCase
@@ -50,7 +51,7 @@ class LoginViewModel @Inject constructor(
                 _uiState.value = when(result){
                     is Resource.Loading -> LoginUiState.Loading
                     is Resource.Success -> LoginUiState.Success(result.data!!)
-                    is Resource.Error -> LoginUiState.Error(result.message  ?:"An Unknown error occurred")
+                    is Resource.Error -> LoginUiState.Error(result.message  ?:R.string.general_error_message.toString())
 
                 }
 
@@ -65,7 +66,7 @@ class LoginViewModel @Inject constructor(
             _uiState.value = LoginUiState.Loading
 
             // Simulate API delay
-            kotlinx.coroutines.delay(1000)
+            kotlinx.coroutines.delay(2000)
 
             if (_username.value == "demo" && _password.value == "password") {
                 _uiState.value = LoginUiState.Success(

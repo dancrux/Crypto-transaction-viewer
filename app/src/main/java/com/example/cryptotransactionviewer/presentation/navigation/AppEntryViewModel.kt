@@ -8,12 +8,19 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AppEntryViewModel @Inject constructor() :ViewModel() {
-    private val _startDestination = MutableStateFlow<String?>(null)
+    private val _startDestination = MutableStateFlow<String?>(Screen.Login.route)
     val startDestination = _startDestination.asStateFlow()
 
     fun determineStartDestination(appNavigator: AppNavigator){
-        viewModelScope.launch {
-            _startDestination.value = appNavigator.getStartDestination()
-        }
+      try {
+          viewModelScope.launch {
+              _startDestination.value = appNavigator.getStartDestination()
+          }
+      }catch (e: Exception){
+          // Fallback to login screen
+          _startDestination.value = Screen.Login.route
+
+      }
+
     }
 }

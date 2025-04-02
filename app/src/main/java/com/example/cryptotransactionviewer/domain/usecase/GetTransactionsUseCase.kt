@@ -6,7 +6,7 @@ import com.example.cryptotransactionviewer.domain.repository.BlockChainRepositor
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetBlockTransactionsUseCase @Inject constructor(
+class GetTransactionsUseCase @Inject constructor(
     private val blockChainRepository: BlockChainRepository
 ) {
 

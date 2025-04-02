@@ -8,6 +8,8 @@ import com.example.cryptotransactionviewer.data.repositoryimpl.BlockChainReposit
 import com.example.cryptotransactionviewer.data.repositoryimpl.UserRepositoryImpl
 import com.example.cryptotransactionviewer.domain.repository.BlockChainRepository
 import com.example.cryptotransactionviewer.domain.repository.UserRepository
+import com.example.cryptotransactionviewer.domain.usecase.IsLoggedInUseCase
+import com.example.cryptotransactionviewer.presentation.navigation.AppNavigator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,11 +20,13 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-//    @Provides
-//    @Singleton
-//    fun provideAppNavigator(): AppNavigator {
-//        return AppNavigator()
-//    }
+    @Provides
+    @Singleton
+    fun provideAppNavigator(
+        isLoggedInUseCase: IsLoggedInUseCase
+    ): AppNavigator {
+        return AppNavigator(isLoggedInUseCase)
+    }
 
     @Provides
     @Singleton

@@ -1,11 +1,11 @@
 package com.example.cryptotransactionviewer
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,10 +23,14 @@ class MainActivity : ComponentActivity() {
     lateinit var appNavigator: AppNavigator
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
+//        enableEdgeToEdge()
         setContent {
+            Log.d("AppFlow", "MainActivity setContent start")
             CryptoTransactionViewerTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) {
+                Log.d("AppFlow", "Inside BitcoinTransactionsTheme")
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    Log.d("AppFlow", "About to call AppEntryPoint")
                    AppEntryPoint(appNavigator = appNavigator)
                 }
             }

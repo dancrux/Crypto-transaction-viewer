@@ -13,8 +13,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.example.cryptotransactionviewer.R
 import com.example.cryptotransactionviewer.domain.model.Transaction
 import com.example.cryptotransactionviewer.presentation.theme.BitcoinOrange
+import com.example.cryptotransactionviewer.presentation.theme.TezosGreen
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -61,35 +62,35 @@ fun TransactionItem(
         )
     ) {
         Row(
-            modifier= Modifier
+            modifier= modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
 //            Icon Box
             Box(
-                modifier = Modifier
+                modifier = modifier
                     .size(40.dp)
                     .clip(CircleShape)
                     .background(
-                        if (isIncoming) Color.Green.copy(alpha = 0.2f)
+                        if (isIncoming) Color.Green.copy(alpha = 0.1f)
                         else Color.Red.copy(alpha = 0.2f)
                     ),
                 contentAlignment = Alignment.Center
             ){
                 Icon(
-                    imageVector = if (isIncoming) Icons.Default.ArrowForward else Icons.Default.ArrowBack,
+                    imageVector = if (isIncoming) Icons.AutoMirrored.Filled.ArrowForward else Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = if (isIncoming) stringResource(id = R.string.incoming) else stringResource(
                         id = R.string.outgoing
                     ),
-                    tint = if (isIncoming) Color.Green else Color.Red
+                    tint = if (isIncoming) TezosGreen else Color.Red
                 )
             }
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = modifier.width(16.dp))
 
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = modifier.weight(1f)
             ) {
                 // Text field shows Transaction hash (shortened)
                 Text(
@@ -98,7 +99,7 @@ fun TransactionItem(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = modifier.height(4.dp))
 
                 // Transaction Date
                 Text(
@@ -113,7 +114,7 @@ fun TransactionItem(
                 // Amount in BTC (simplified conversion for display)
                 val amountInBtc =totalOutput.toDouble() / 100000000.0
                 Text(
-                    text = String.format("%.8f BTC", amountInBtc),
+                    text = String.format(Locale.getDefault(),"%.8f BTC", amountInBtc),
                     style = MaterialTheme.typography.bodyMedium.copy( fontWeight = FontWeight.Bold, color = BitcoinOrange),
                 )
                 Spacer(modifier = Modifier.height(4.dp))
@@ -121,7 +122,7 @@ fun TransactionItem(
                 val feeInBtc = transaction.fee.toDouble() / 100000000.0
 
                 Text(
-                    text = "Fee: ${String.format("%.8f BTC", feeInBtc)}",
+                    text = "Fee: ${String.format(Locale.getDefault(), "%.8f BTC", feeInBtc)}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )

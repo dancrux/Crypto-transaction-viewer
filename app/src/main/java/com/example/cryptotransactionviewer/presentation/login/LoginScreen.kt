@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -55,6 +54,7 @@ fun LoginScreen(
     onLoginSuccess: ()->Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ){
+
     val uiState by viewModel.uiState.collectAsState()
     val username by viewModel.username.collectAsState()
     val password by viewModel.password.collectAsState()
@@ -76,7 +76,7 @@ fun LoginScreen(
     }
     Scaffold (
         topBar = {
-            AppTopBar(title = stringResource(id = R.string.bitcoin_transactions))
+            AppTopBar(title = stringResource(id = R.string.app_name))
         },
         snackbarHost = {SnackbarHost(snackbarHostState)}
     ){paddingValues -> 
@@ -167,21 +167,22 @@ fun LoginScreen(
                         ),
                         modifier = Modifier.fillMaxWidth()
                     )
-                    Spacer(modifier = Modifier.height(intrinsicSize = IntrinsicSize.Max))
+                    Spacer(modifier = Modifier.height(18.dp))
                     
                     Button(
                         onClick = { viewModel.mockLogin() },
-                        enabled = uiState is LoginUiState.Loading,
+                        enabled = uiState !is LoginUiState.Loading,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(56.dp),
                         shape = RoundedCornerShape(8.dp)
                     ) {
                         if (uiState is LoginUiState.Loading) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(24.dp),
-                                color = MaterialTheme.colorScheme.onPrimary
-                            )
+                           CircularProgressIndicator(
+                                    modifier = Modifier.size(24.dp),
+                                    color = MaterialTheme.colorScheme.onPrimary,
+                                    strokeWidth = 2.dp
+                                )
                         }else {
                             Text(
                                 text = stringResource(id = R.string.login),
@@ -194,7 +195,4 @@ fun LoginScreen(
             }
         }
     }
-
-
-
 }

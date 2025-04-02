@@ -1,5 +1,6 @@
 package com.example.cryptotransactionviewer.data.repositoryimpl
 
+import android.util.Log
 import com.example.cryptotransactionviewer.data.local.entity.toBlock
 import com.example.cryptotransactionviewer.data.local.entity.toBlockEntity
 import com.example.cryptotransactionviewer.data.local.entity.toInputEntities
@@ -17,6 +18,7 @@ import com.example.cryptotransactionviewer.domain.model.TransactionInput
 import com.example.cryptotransactionviewer.domain.model.TransactionOutput
 import com.example.cryptotransactionviewer.domain.repository.BlockChainRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
@@ -33,22 +35,26 @@ class BlockChainRepositoryImpl @Inject constructor(
       emit(Resource.Loading())
 
         // Check for cached data first
-        val cachedBlock = localDataSource.getLatestBlock()
-        cachedBlock.collect{ blockEntity->
-            blockEntity?.let {
-                emit(Resource.Success(it.toBlock()))
+        try {
+            val currentTimeMillis: Long = System.currentTimeMillis()
+            val futureTimeMillis: Long = currentTimeMillis + (2 * 60 * 1000) // 5 minutes in ms
+            val cachedBlock = localDataSource.getLatestBlock().firstOrNull()
+
+            if (cachedBlock != null && cachedBlock.time > futureTimeMillis){
+                emit(Resource.Success(cachedBlock.toBlock()))
+                return@flow
+            }
+            else{
+                //        Fetch from remote sources
+                val remoteBlock = remoteDataSource.getLatestBlock()
+
+                // Cache to local database
+                localDataSource.saveBlock(remoteBlock.toBlock().toBlockEntity())
+
+                emit(Resource.Success(remoteBlock.toBlock()))
             }
         }
-//        Fetch from remote sources
-        try {
-            val remoteBlock = remoteDataSource.getLatestBlock().toBlock()
-
-            // Cache to local database
-            localDataSource.saveBlock(remoteBlock.toBlockEntity())
-
-            emit(Resource.Success(remoteBlock))
-
-        }catch (e: HttpException){
+        catch (e: HttpException){
             emit(Resource.Error("Failed to fetch latest block: ${e.localizedMessage}"))
         }catch (e: IOException){
             emit(Resource.Error("Network error: ${e.localizedMessage}"))
@@ -60,30 +66,38 @@ class BlockChainRepositoryImpl @Inject constructor(
     override suspend fun getBlockTransactions(blockHash: String): Flow<Resource<List<Transaction>>> = flow{
     emit(Resource.Loading())
 
-        val cachedTransaction = localDataSource.getTransactionsByBlockHash(blockHash)
-
-        cachedTransaction.collect{ transactionList->
-            if (transactionList.isNotEmpty()) {
-
-                emit(Resource.Success(transactionList.map { it.toTransaction() }))
-            }
-        }
         try {
-//            Fetch from remote
-            val blockTransactions = remoteDataSource.getBlockTransactions(blockHash)
-            val transactions =blockTransactions.transactions.map { it.toTransaction() }
-            // Cache to local database
-            localDataSource.clearTransactionsForBlock(blockHash)
+            val cachedTransaction = localDataSource.getTransactionsByBlockHash(blockHash).firstOrNull()
+            if (!cachedTransaction.isNullOrEmpty()){
+                emit(Resource.Success(cachedTransaction.map { it.toTransaction() }))
+                return@flow
+            }else {
+                //            Fetch from remote
+                val blockTransactions = remoteDataSource.getBlockTransactions(blockHash)
+                val transactions = blockTransactions.transactions.map {
+                    Log.d("getLatestBlock", "remoteBlock Has Data ${it.fee}")
+                    it.toTransaction()
+                }
+                // Cache to local database
+                localDataSource.clearTransactionsForBlock(blockHash)
 
-            val transactionEntities = transactions.map { it.toTransactionEntity(blockHash) }
-            val inputEntities = transactions.flatMap { it.toInputEntities() }
-            val outputEntities = transactions.flatMap { it.toOutputEntities() }
+                val firstHundredAndFifty = transactions.take(150)
+
+                val transactionEntities =
+                    firstHundredAndFifty.map { it.toTransactionEntity(blockHash) }
+                val inputEntities = firstHundredAndFifty.flatMap { it.toInputEntities() }
+                val outputEntities = firstHundredAndFifty.flatMap { it.toOutputEntities() }
 
 
-            localDataSource.saveTransactions(transactionEntities, inputEntities, outputEntities)
+                localDataSource.saveTransactions(
+                    transactionEntities.take(25),
+                    inputEntities.take(25),
+                    outputEntities.take(25)
+                )
 
-            // Emit success with remote data
-            emit(Resource.Success(transactions))
+                // Emit success with remote data
+                emit(Resource.Success(transactions.take(50)))
+            }
 
         }catch (e: HttpException) {
             emit(Resource.Error("Failed to fetch transactions: ${e.localizedMessage}"))

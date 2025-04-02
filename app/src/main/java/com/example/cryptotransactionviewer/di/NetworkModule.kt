@@ -1,5 +1,6 @@
 package com.example.cryptotransactionviewer.di
 
+import com.example.cryptotransactionviewer.data.remote.api.AuthApi
 import com.example.cryptotransactionviewer.data.remote.api.BlockChainApi
 import com.example.cryptotransactionviewer.data.remote.api.TezosApi
 import com.example.cryptotransactionviewer.data.remote.source.BlockChainRemoteDataSource
@@ -46,6 +47,17 @@ object NetworkModule {
             .writeTimeout(30, TimeUnit.SECONDS)
             .build()
     }
+    @Provides
+    @Singleton
+    @Named("authRetrofit")
+    fun provideAuthRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://google.com/")
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+    }
+
 
     @Provides
     @Singleton
@@ -66,6 +78,12 @@ object NetworkModule {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthApi(@Named("authRetrofit") retrofit: Retrofit): AuthApi {
+        return retrofit.create(AuthApi::class.java)
     }
 
     @Provides

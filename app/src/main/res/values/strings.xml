@@ -16,7 +16,7 @@
     <string name="logout">Logout</string>
     <string name="error_occurred">An error occurred</string>
     <string name="retry">Retry</string>
-    <string name="no_transactions">No transactions found</string>
+    <string name="empty_transactions_text">No transactions found</string>
     <string name="incoming">No transactions found</string>
     <string name="outgoing">No transactions found</string>
     <string name="back">Back</string>
@@ -24,4 +24,6 @@
     <string name="app_logo">App Logo</string>
     <string name="hide_password">Hide password</string>
     <string name="show_password">Show password</string>
+    <string name="general_error_message">An Unknown error occurred</string>
+    <string name="block_hash">Block Hash</string>
 </resources>
