@@ -17,8 +17,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -156,7 +154,7 @@ fun LoginScreen(
                         trailingIcon = {
                             IconButton(onClick = {isPasswordVisible = !isPasswordVisible}) {
                                 Icon(
-                                    imageVector = if (isPasswordVisible)  Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                                    painter = if (isPasswordVisible)  painterResource(id = R.drawable.ic_visibility) else  painterResource(id = R.drawable.ic_visibility_off),
                                     contentDescription = if (isPasswordVisible) stringResource(id = R.string.hide_password) else stringResource(id = R.string.show_password)
                                 )
                             }

@@ -95,7 +95,6 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.1")
 
     // Testing
-
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.kotlinx.coroutines.test)
