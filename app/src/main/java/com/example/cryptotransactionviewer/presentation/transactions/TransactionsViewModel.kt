@@ -28,6 +28,9 @@ class TransactionsViewModel @Inject constructor(
     private val _currentBlock= MutableStateFlow<Block?>(null)
     val currentBlock = _currentBlock.asStateFlow()
 
+    init {
+        loadLatestBlock()
+    }
 
     fun loadLatestBlock(){
         viewModelScope.launch {

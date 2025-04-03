@@ -25,7 +25,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -54,10 +53,6 @@ fun TransactionsScreen (
     val uiState by viewModel.uiState.collectAsState()
     val currentBlock by viewModel.currentBlock.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
-    
-    LaunchedEffect(Unit) {
-        viewModel.loadLatestBlock()
-    }
     
     Scaffold (
         topBar = {
